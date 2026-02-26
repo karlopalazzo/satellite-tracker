@@ -123,3 +123,34 @@ class TLEParser:
             elif char == "-":  # Negative sign counts as 1
                 checksum += 1
         return checksum % 10
+
+# Helper method to parse the epoch field from line 1
+
+    @staticmethod
+    def _parse_epoch(line1: str) -> datetime:
+        '''Parse the epoch field from line 1,
+        returning a timezone-aware datetime object in UTC.'''
+        year = int(line1[18:20])
+        day_of_year = float(line1[20:32].strip())
+
+        full_year = 1900 + year if year >= 57 else 2000 + year  # 1957-1999 or 2000-2056
+        return datetime(full_year, 1, 1) + timedelta(days=day_of_year - 1, tzinfo=timezone.utc)
+
+    @staticmethod
+    def _parse_exponent_field(field: str) -> float:
+        '''Parse fields that use a compact scientific notation,
+        returning the corresponding float value.'''
+        field = field.strip()
+        
+        if not field:
+            return 0.0  # Treat empty fields as zero
+
+        sign = -1 if field.startswith("-") else 1
+
+        if field[0] in "-+":
+            field = field[1:]
+        
+        mantissa = float(f"0.{field[:-1]}")
+        exponent = int(field[-1])
+
+        return sign * mantissa * (10 ** exponent)
