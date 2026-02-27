@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from timezone import timezone, timedelta
+from datetime import datetime, timezone, timedelta
 
 
-calss TLEParseError(Exception):
+class TLEParseError(Exception):
     """Exception class for TLE parsing errors."""
     pass
 
@@ -68,7 +68,7 @@ class TLEParser:
         return TLE(
             name=name.strip(),
             norad_id=norad_id,
-            cassification=classification,
+            classification=classification,
             international_designator=international_designator,
             epoch=epoch,
             mean_motion_derivative=mean_motion_derivative,
@@ -90,20 +90,17 @@ class TLEParser:
     @staticmethod
     def _validate_lines(line1: str, line2: str):
         if len(line1) != 69 or len(line2) != 69:
-            raise TLEParseError(f"Each TLE line must be exactly 69 chars long. 
-                                Line 1: {len(line1)}, Line 2: {len(line2)}")
+            raise TLEParseError(f"Each TLE line must be exactly 69 characters. L1: {len(line1)}, L2: {len(line2)}")
 
     @staticmethod
     def _validate_line_numbers(line1: str, line2: str):
         if not line1.startswith("1 ") or not line2.startswith("2 "):
-            raise TLEParseError(f"TLE lines must start with '1 ' and '2 '. 
-                                Line 1: '{line1[:2]}', Line 2: '{line2[:2]}'")
+            raise TLEParseError(f"TLE lines must start with '1 ' and '2 '. L1: '{line1[:2]}', L2: '{line2[:2]}'")
 
     @staticmethod
     def _validate_norad_consistency(line1: str, line2: str):
         if line1[2:7] != line2[2:7]:
-            raise TLEParseError(f"NORAD ID mismatch between lines. 
-                                Line 1: {line1[2:7]}, Line 2: {line2[2:7]}")
+            raise TLEParseError(f"NORAD ID mismatch between lines. L1: {line1[2:7]}, L2: {line2[2:7]}")
 
     @staticmethod
     def _validate_checksum(line: str):
@@ -134,7 +131,7 @@ class TLEParser:
         day_of_year = float(line1[20:32].strip())
 
         full_year = 1900 + year if year >= 57 else 2000 + year  # 1957-1999 or 2000-2056
-        return datetime(full_year, 1, 1) + timedelta(days=day_of_year - 1, tzinfo=timezone.utc)
+        return datetime(full_year, 1, 1, tzinfo=timezone.utc) + timedelta(days=day_of_year - 1)
 
     @staticmethod
     def _parse_exponent_field(field: str) -> float:
@@ -150,7 +147,7 @@ class TLEParser:
         if field[0] in "-+":
             field = field[1:]
         
-        mantissa = float(f"0.{field[:-1]}")
-        exponent = int(field[-1])
+        mantissa = float(f"0.{field[0:5]}")
+        exponent = int(field[5:])
 
         return sign * mantissa * (10 ** exponent)
