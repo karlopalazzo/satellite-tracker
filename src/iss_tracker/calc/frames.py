@@ -52,7 +52,8 @@ def gmst_from_jd(jd: float, fr: float) -> float:
     Compute GMST in radians from Julian date and fraction.
     """
     # Formula from Vallado „Fundamentals of Astrodynamics and Applications”
-    T = (jd - 2451545.0) / 36525.0  # Julian centuries since J2000.0
+    jd_full = jd + fr
+    T = (jd_full - 2451545.0) / 36525.0  # Julian centuries since J2000.0
     # Linear growth of GMST in seconds, plus small corrections for T^2 and T^3 terms. The result is in seconds.
     gmst_sec = 67310.54841 + (876600 * 3600 + 8640184.812866) * T + 0.093104 * T ** 2 - 6.2e-6 * T ** 3
     gmst_sec = gmst_sec % 86400  # Wrap to [0, 86400) seconds
