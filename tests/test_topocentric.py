@@ -28,6 +28,7 @@ def test_ecef_to_enu_east_direction():
         pytest.param(np.array([0.0, -1000.0, 0.0]), 180.0, 0.0, 1000.0, id="south_1000m"),
         pytest.param(np.array([0.0, 0.0, 0.0]), 0.0, 0.0, 0.0, id="zero_vector"),
         pytest.param(np.array([707.1068, 707.1068, 0.0]), 45.0, 0.0, 1000.0, id="northeast_1000m"),
+        pytest.param(np.array([0.0, 0.0, -1000.0]), None, -90.0, 1000.0, id="down_1000m"),
     ]
 )
 def test_enu_to_az_el_range(enu, expected_az_deg, expected_el_deg, expected_range):
