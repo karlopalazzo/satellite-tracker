@@ -28,11 +28,11 @@ class Observer:
     # Validation logic
 
     def _validate(self):
-        if not (-90.0 <= self.latitude <= 90.0):
-            raise ObserverValidationError(f"Latitude '{self.latitude}' out of range [-90, 90]")
+        if not (-90.0 <= self.latitude_deg <= 90.0):
+            raise ObserverValidationError(f"Latitude '{self.latitude_deg}' out of range [-90, 90]")
         
-        if not (-180.0 <= self.longitude <= 180.0):
-            raise ObserverValidationError(f"Longitude '{self.longitude}' out of range [-180, 180]")
+        if not (-180.0 <= self.longitude_deg <= 180.0):
+            raise ObserverValidationError(f"Longitude '{self.longitude_deg}' out of range [-180, 180]")
         
         if not (-1000.0 <= self.altitude_m <= 100_000.0):
             raise ObserverValidationError(f"Altitude '{self.altitude_m}' out of range [-1000, 100000].")
