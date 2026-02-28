@@ -8,7 +8,7 @@ observer_lon_rad = math.radians(21.0122)  # Warsaw longitude in radians
 observer_alt_m = 100.0  # Observer altitude in meters
 
 # satrec: satellite TLE
-# satrec = Satrec.twoline2rv(line1, line2)  # Initialize satellite record from TLE lines
+satellite = Satrec.twoline2rv(line1, line2)  # Initialize satellite record from TLE lines
 
 # Pipeline
 # Satelite: r_eci:ECI -> r_ecef:ECEF -> observer_ecef:ECEF -> enu:ENU -> az_rad, el_rad, range_m
