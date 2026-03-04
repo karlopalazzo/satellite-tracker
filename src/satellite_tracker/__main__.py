@@ -1,15 +1,15 @@
 from math import radians, degrees
 from .calc.frames import get_satellite_az_el_range
-from .infrastructure.tle_provider import get_iss_tle
+from .infrastructure.tle_provider import get_satellite_tle
 from sgp4.api import Satrec
 
 # Observer's geodetic coordinates
-observer_lat_rad = radians(51.0783)  # Wroclaw latitude in radians
-observer_lon_rad = radians(17.0372)  # Wroclaw longitude in radians
+observer_lat_rad = radians(51.079703)  # Wroclaw latitude in radians
+observer_lon_rad = radians(17.041060)  # Wroclaw longitude in radians
 observer_alt_m = 126.0  # Observer altitude in meters
 
 # satrec: satellite TLE
-line1, line2 = get_iss_tle()
+line1, line2 = get_satellite_tle()
 print(line1, line2, sep='\n')
 satellite = Satrec.twoline2rv(line1, line2)  # Initialize satellite record from TLE lines
 
