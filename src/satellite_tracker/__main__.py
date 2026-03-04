@@ -9,7 +9,7 @@ observer_lon_rad = radians(17.041060)  # Wroclaw longitude in radians
 observer_alt_m = 126.0  # Observer altitude in meters
 
 # satrec: satellite TLE
-line1, line2 = get_satellite_tle()
+line1, line2 = get_satellite_tle(25338)
 print(line1, line2, sep='\n')
 satellite = Satrec.twoline2rv(line1, line2)  # Initialize satellite record from TLE lines
 

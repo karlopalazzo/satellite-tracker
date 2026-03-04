@@ -14,7 +14,9 @@ def get_satellite_tle(norad_id: int) -> tuple [str, str]:
 
     lines = response.text.strip().splitlines()
 
-    if len(lines) < 2:
+    tle_lines = [line for line in lines if line.startswith(("1", "2"))]
+
+    if len(tle_lines) != 2:
         raise ValueError(f"TLE for NORAD {norad_id} not found.")
 
-    return lines[0], lines[1]
+    return tle_lines[0], tle_lines[1]
