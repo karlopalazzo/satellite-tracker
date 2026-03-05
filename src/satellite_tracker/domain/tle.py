@@ -11,6 +11,9 @@ class TLEParseError(Exception):
 class TLE:
     """Two-Line Element set (TLE) for satellite tracking."""
     name: str
+
+    raw_line1: str
+    raw_line2: str
     
     # Line 1 information:
     norad_id: int
@@ -67,6 +70,8 @@ class TLEParser:
 
         return TLE(
             name=name.strip(),
+            raw_line1 = line1,
+            raw_line2 = line2,
             norad_id=norad_id,
             classification=classification,
             international_designator=international_designator,

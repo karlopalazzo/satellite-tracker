@@ -1,6 +1,6 @@
 import pytest
 import math
-from iss_tracker.domain.observer import Observer, ObserverValidationError
+from satellite_tracker.domain.observer import Observer, ObserverValidationError
 
 
 def test_observer_valid():
