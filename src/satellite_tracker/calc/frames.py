@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime, timezone
 import math
 from .topocentric import ecef_to_enu, enu_to_az_el_range
+from .propagator import propagate_to_eci
 
 # WGS84 elipsoid constants
 WGS84_A = 6378137.0  # Semi-major axis in meters
@@ -35,17 +36,6 @@ def geodetic_to_ecef(
     z = (N * (1 - WGS84_E2) + alt_m) * sin_lat
 
     return x, y, z
-
-
-def satellite_tle_to_eci(satellite: Satrec, year, month, day, hour, minute, second) -> tuple[float, float, float]:
-    """
-    Convert satellite TLE data to ECI coordinates at a given time.
-    """
-    jd, fr = jday(year, month, day, hour, minute, second)  # Get Julian date and fraction
-    e, r, v = satellite.sgp4(jd, fr)  # Get ECI position and velocity: error code, position (km), velocity (km/s)
-    if e != 0:
-        raise ValueError(f"SGP4 error code: {e}")
-    return np.array(r), jd, fr  # r = [x, y, z] ECI in kilometers with jd and fr for GMST calculation
 
 
 def gmst_from_jd(jd: float, fr: float) -> float:
@@ -94,13 +84,13 @@ def get_satellite_az_el_range(observer_lat_rad: float, observer_lon_rad: float, 
     second = obs_time.second + obs_time.microsecond / 1e6
 
     # Pipeline 2: Satelite ECI and Julian Date using satellite TLE and Pipeline 1 time
-    r_eci, jd, fr = satellite_tle_to_eci(satellite, year, month, day, hour, minute, second)
+    r_eci, jd, fr = propagate_to_eci(satellite, obs_time)
 
     # Pipeline 3: GMST using Pipeline 2 Julian Date and fraction
     gmst_rad = gmst_from_jd(jd, fr)
 
     # Pipeline 4: Satellite ECI -> ECEF using Pipeline 2 ECI and Pipeline 3 GMST
-    r_ecef = eci_to_ecef(r_eci, gmst_rad) * 1000  # Convert km to m
+    r_ecef = eci_to_ecef(r_eci, gmst_rad)
 
     # Pipeline 5 Observer geodetic to ECEF
     observer_ecef = np.array(geodetic_to_ecef(observer_lat_rad, observer_lon_rad, observer_alt_m))
