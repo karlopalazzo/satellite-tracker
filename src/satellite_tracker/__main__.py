@@ -1,13 +1,13 @@
 from datetime import datetime, timezone
 from math import radians, degrees
-from sgp4.api import Satrec
+from .calc.propagator import propagate_satellite
 from .infrastructure.tle_provider import get_satellite_tle
 from .domain.tracker import SatelliteTracker
 
 norad_id = 25544
 line1, line2 = get_satellite_tle(norad_id)
 
-satellite = Satrec.twoline2rv(line1, line2)
+satellite = propagate_satellite(line1, line2)
 
 # Observer's geodetic coordinates
 observer_lat = radians(51.62773)  # Wroclaw latitude in radians
