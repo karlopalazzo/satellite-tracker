@@ -39,10 +39,9 @@ class SatelliteTracker:
 
     def get_az_el_range(self, obs_time: datetime | None = None):
         """
-        Compute satellite azimuth, elevation and range for given time
+        Compute satellite azimuth, elevation and range for a given time.
         """
-        if obs_time is None:
-            obs_time = datetime.now(timezone.utc)
+        obs_time = self._resolve_time(obs_time)
             
         r_eci, jd, fr = propagate_to_eci(self.satellite, obs_time)
 
@@ -60,3 +59,8 @@ class SatelliteTracker:
         az_rad, el_rad, range_m = enu_to_az_el_range(enu)
 
         return az_rad, el_rad, range_m
+
+    def _resolve_time(self, obs_time: datetime | None) -> datetime:
+        if obs_time is None:
+            return datetime.now(timezone.utc)
+        return obs_time
