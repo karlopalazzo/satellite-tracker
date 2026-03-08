@@ -1,14 +1,9 @@
-from datetime import datetime, timezone
-from math import degrees
-from .calc.propagator import propagate_satellite
+from .domain.constellation_tracker import ConstellationTracker
 from .infrastructure.tle_provider import get_satellite_tle
+from .calc.propagator import propagate_satellite
+from datetime import datetime, timezone
 from .domain.observer import Observer
-from .domain.tracker import SatelliteTracker
-
-norad_id = 25544
-line1, line2 = get_satellite_tle(norad_id)
-
-satellite = propagate_satellite(line1, line2)
+from math import degrees
 
 observer = Observer(
     latitude_deg=51.62773,
@@ -16,21 +11,30 @@ observer = Observer(
     altitude_m=126.0
 )
 
+constellation = ConstellationTracker(observer)
 
-tracker = SatelliteTracker(
-    satellite,
-    observer
-)
+# ISS
+line1, line2 = get_satellite_tle(25544)
+iss = propagate_satellite(line1, line2)
+constellation.add_satellite("ISS", iss)
 
-# Pipeline:
-# Satellite ECI → ECEF → Topocentric ENU → Azimuth/Elevation/Range
-az, el, rng = tracker.get_az_el_range()
+# Hubble
+line1, line2 = get_satellite_tle(20580)
+hubble = propagate_satellite(line1, line2)
+constellation.add_satellite("Hubble", hubble)
 
-print(f"Azimuth: {degrees(az):.2f} deg, \
-        Elevation: {degrees(el):.2f} deg, \
-        Range: {rng:.2f} m")
+positions = constellation.get_all_positions()
 
-if el > 0:
-    print("Target over horizon.")
-else:
-    print("Target under horizon.")
+for name, data in positions.items():
+    print(name)
+
+    print(
+        f"Az: {degrees(data['azimuth']):.2f}° "
+        f"El: {degrees(data['elevation']):.2f}° "
+        f"Range: {data['range']:.0f} m"
+    )
+
+    if data["visible"]:
+        print("Visible\n")
+    else:
+        print("Below horizon\n")

@@ -19,5 +19,4 @@ def get_satellite_tle(norad_id: int) -> tuple [str, str]:
     if len(tle_lines) != 2:
         raise ValueError(f"TLE for NORAD {norad_id} not found.")
 
-    print(lines[0])
     return tle_lines[0], tle_lines[1]
