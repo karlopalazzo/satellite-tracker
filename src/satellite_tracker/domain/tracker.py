@@ -1,5 +1,7 @@
 import numpy as np
 from datetime import datetime, timezone
+from sgp4.api import Satrec
+from .observer import Observer
 
 from satellite_tracker.calc.frames import (
     geodetic_to_ecef,
@@ -22,15 +24,17 @@ class SatelliteTracker:
     for a given observer's coordinates.
     """
 
-    def __init__(self, satellite: Satrec, obs_lat_rad: float, obs_lon_rad: float, obs_alt_m: float):
+    def __init__(self, satellite: Satrec, observer: Observer):
         self.satellite = satellite
-        self.obs_lat = obs_lat_rad
-        self.obs_lon = obs_lon_rad
-        self.obs_alt = obs_alt_m
+        self.observer = observer
 
         # Pre-computing observer ECEF
         self.obs_ecef = np.array(
-            geodetic_to_ecef(obs_lat_rad, obs_lon_rad, obs_alt_m)
+            geodetic_to_ecef(
+                self.observer.latitude_rad,
+                self.observer.longitude_rad,
+                self.observer.altitude_m
+            )
         )
 
     def get_az_el_range(self, obs_time: datetime | None = None):
@@ -49,17 +53,10 @@ class SatelliteTracker:
         enu = ecef_to_enu(
             self.obs_ecef,
             r_ecef,
-            self.obs_lat,
-            self.obs_lon
+            self.observer.latitude_rad,
+            self.observer.longitude_rad
         )
 
         az_rad, el_rad, range_m = enu_to_az_el_range(enu)
 
         return az_rad, el_rad, range_m
-
-    def is_visible(self, obs_time: datetime | None = None):
-        """
-        Check whether satellite is over horizon.
-        """
-        _, el_rad, _ = self.get_az_el_range(obs_time)
-        return el_rad > 0

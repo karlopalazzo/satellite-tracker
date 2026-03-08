@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
-from math import radians, degrees
+from math import degrees
 from .calc.propagator import propagate_satellite
 from .infrastructure.tle_provider import get_satellite_tle
+from .domain.observer import Observer
 from .domain.tracker import SatelliteTracker
 
 norad_id = 25544
@@ -9,26 +10,27 @@ line1, line2 = get_satellite_tle(norad_id)
 
 satellite = propagate_satellite(line1, line2)
 
-# Observer's geodetic coordinates
-observer_lat = radians(51.62773)  # Wroclaw latitude in radians
-observer_lon = radians(15.88198)  # Wroclaw longitude in radians
-observer_alt = 126.0  # Observer altitude in meters
+observer = Observer(
+    latitude_deg=51.62773,
+    longitude_deg=15.88198,
+    altitude_m=126.0
+)
+
 
 tracker = SatelliteTracker(
     satellite,
-    observer_lat,
-    observer_lon,
-    observer_alt
+    observer
 )
 
-# Satelite: r_eci:ECI -> r_ecef:ECEF -> observer_ecef:ECEF -> enu:ENU -> az_rad, el_rad, range_m
+# Pipeline:
+# Satellite ECI → ECEF → Topocentric ENU → Azimuth/Elevation/Range
 az, el, rng = tracker.get_az_el_range()
 
 print(f"Azimuth: {degrees(az):.2f} deg, \
         Elevation: {degrees(el):.2f} deg, \
         Range: {rng:.2f} m")
 
-if tracker.is_visible():
-    print("Target under horizon.")
-else:
+if el > 0:
     print("Target over horizon.")
+else:
+    print("Target under horizon.")
