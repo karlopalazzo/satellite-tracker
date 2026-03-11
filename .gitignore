@@ -1,11 +1,25 @@
-# Python
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.pyc
 
-# Virtual Environments
-iss_venv/
+# Virtual environments
+.venv/
+venv/
 env/
 ENV/
+iss_venv/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

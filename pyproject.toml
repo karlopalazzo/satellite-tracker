@@ -1,0 +1,19 @@
+[project]
+name = "satellite-tracker"
+version = "0.1.0"
+description = "Satellite tracking pipeline using TLE and SGP4"
+authors = [
+    { name = "Karol Pałac" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "numpy",
+    "sgp4",
+    "requests"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
