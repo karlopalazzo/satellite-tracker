@@ -1,5 +1,7 @@
-import pytest
 import math
+
+import pytest
+
 from satellite_tracker.domain.observer import Observer, ObserverValidationError
 
 

@@ -1,6 +1,7 @@
+from datetime import datetime, timezone
+
 import numpy as np
 from sgp4.api import Satrec, jday
-from datetime import datetime, timezone
 
 
 def propagate_satellite(line1: str, line2: str) -> Satrec:

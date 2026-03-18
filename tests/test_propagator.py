@@ -1,8 +1,10 @@
-import numpy as np
-from math import degrees
-from sgp4.api import Satrec
 from datetime import datetime, timezone
-from satellite_tracker.calc.frames import geodetic_to_ecef, gmst_from_jd, eci_to_ecef
+from math import degrees
+
+import numpy as np
+from sgp4.api import Satrec
+
+from satellite_tracker.calc.frames import eci_to_ecef, geodetic_to_ecef, gmst_from_jd
 from satellite_tracker.calc.propagator import propagate_to_eci
 from satellite_tracker.calc.topocentric import ecef_to_enu, enu_to_az_el_range
 

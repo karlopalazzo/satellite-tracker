@@ -1,6 +1,8 @@
-import pytest
 from datetime import datetime
-from satellite_tracker.domain.tle import TLEParser, TLEParseError
+
+import pytest
+
+from satellite_tracker.domain.tle import TLEParseError, TLEParser
 
 NAME = "ISS (ZARYA)"
 LINE1 = "1 25544U 98067A   26057.54172094  .00011988  00000+0  23066-3 0  9998"

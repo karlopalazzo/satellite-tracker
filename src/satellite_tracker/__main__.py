@@ -1,9 +1,10 @@
-from .domain.constellation_tracker import ConstellationTracker
-from .infrastructure.tle_provider import get_satellite_tle
-from .calc.propagator import propagate_satellite
 from datetime import datetime, timezone
-from .domain.observer import Observer
 from math import degrees
+
+from .calc.propagator import propagate_satellite
+from .domain.constellation_tracker import ConstellationTracker
+from .domain.observer import Observer
+from .infrastructure.tle_provider import get_satellite_tle
 
 observer = Observer(latitude_deg=51.62773, longitude_deg=15.88198, altitude_m=126.0)
 

@@ -1,10 +1,12 @@
+import math
+from datetime import datetime, timezone
+
+import numpy as np
 from sgp4.api import Satrec, jday
 from sgp4.propagation import gstime
-import numpy as np
-from datetime import datetime, timezone
-import math
-from .topocentric import ecef_to_enu, enu_to_az_el_range
+
 from .propagator import propagate_to_eci
+from .topocentric import ecef_to_enu, enu_to_az_el_range
 
 # WGS84 elipsoid constants
 WGS84_A = 6378137.0  # Semi-major axis in meters
