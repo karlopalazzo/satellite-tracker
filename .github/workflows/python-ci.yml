@@ -28,7 +28,6 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         pip install .
 
-        # dodatkowe narzędzia do lint, testów i type hints
         pip install pytest coverage mypy flake8
 
     - name: Lint code
