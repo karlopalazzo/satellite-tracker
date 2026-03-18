@@ -55,4 +55,4 @@ def enu_to_az_el_range(enu: np.ndarray) -> tuple[float, float, float]:
     ratio = np.clip(up / range_m, -1.0, 1.0)
     el_rad = np.arcsin(ratio)  # range [-pi/2, pi/2]
 
-    return az_rad, el_rad, range_m
+    return float(az_rad), float(el_rad), float(range_m)
