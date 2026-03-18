@@ -31,6 +31,12 @@ jobs:
 
         pip install pytest coverage mypy flake8
 
+    - name: Auto format check (black)
+      run: black --check src tests
+
+    - name: Import order check (isort)
+      run: isort --check-only src tests
+
     - name: Lint code
       run: |
         flake8 src/ tests/
