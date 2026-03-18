@@ -29,7 +29,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         pip install .
 
-        pip install pytest coverage mypy flake8
+        pip install pytest coverage mypy flake8 black isort autoflake
 
     - name: Auto format check (black)
       run: black --check src tests
