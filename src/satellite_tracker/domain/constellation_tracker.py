@@ -1,5 +1,3 @@
-
-
 class ConstellationTracker:
     """
     Tracks multiple satellites for a single observer.

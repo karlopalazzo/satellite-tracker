@@ -6,7 +6,6 @@ class ObserverValidationError(Exception):
     """Raised when observer data is invalid."""
 
 
-
 @dataclass(frozen=True)
 class Observer:
     """

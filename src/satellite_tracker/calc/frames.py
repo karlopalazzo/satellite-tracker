@@ -3,7 +3,6 @@ import math
 import numpy as np
 from sgp4.propagation import gstime
 
-
 # WGS84 elipsoid constants
 WGS84_A = 6378137.0  # Semi-major axis in meters
 WGS84_F = 1 / 298.257223563  # Flattening

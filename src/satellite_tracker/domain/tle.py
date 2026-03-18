@@ -6,7 +6,6 @@ class TLEParseError(Exception):
     """Exception class for TLE parsing errors."""
 
 
-
 @dataclass(frozen=True)  # frozen==immutable
 class TLE:
     """Two-Line Element set (TLE) for satellite tracking."""
