@@ -48,7 +48,8 @@ def enu_to_az_el_range(enu: np.ndarray) -> tuple[float, float, float]:
     if az_rad < 0:
         az_rad += 2 * np.pi           # convert to range [0, 2*pi] for consistency with tracking conventions
 
-    # elevation is arcsin(up / range), np.clip() ensures the input to arcsin is in the valid range [-1, 1] to avoid NaNs due to floating point errors.
+    # elevation is arcsin(up / range), np.clip() ensures the input to arcsin is in the valid range [-1, 1] 
+    # to avoid NaNs due to floating point errors.
     ratio = np.clip(up / range_m, -1.0, 1.0)
     el_rad = np.arcsin(ratio)         # range [-pi/2, pi/2]
 
