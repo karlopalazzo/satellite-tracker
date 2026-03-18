@@ -29,13 +29,17 @@ def test_ecef_to_enu_east_direction():
         pytest.param(np.array([0.0, 0.0, 0.0]), 0.0, 0.0, 0.0, id="zero_vector"),
         pytest.param(np.array([707.1068, 707.1068, 0.0]), 45.0, 0.0, 1000.0, id="northeast_1000m"),
         pytest.param(np.array([0.0, 0.0, -1000.0]), None, -90.0, 1000.0, id="down_1000m"),
-    ]
+    ],
 )
 def test_enu_to_az_el_range(enu, expected_az_deg, expected_el_deg, expected_range):
     az_rad, el_rad, range_m = enu_to_az_el_range(enu)
 
     if expected_az_deg is not None:
-        assert np.isclose(az_rad, np.radians(expected_az_deg), atol=1e-6), f"Expected azimuth {expected_az_deg}°, got {np.degrees(az_rad)}°"
-    
-    assert np.isclose(el_rad, np.radians(expected_el_deg), atol=1e-6), f"Expected elevation {expected_el_deg}°, got {np.degrees(el_rad)}°"
+        assert np.isclose(
+            az_rad, np.radians(expected_az_deg), atol=1e-6
+        ), f"Expected azimuth {expected_az_deg}°, got {np.degrees(az_rad)}°"
+
+    assert np.isclose(
+        el_rad, np.radians(expected_el_deg), atol=1e-6
+    ), f"Expected elevation {expected_el_deg}°, got {np.degrees(el_rad)}°"
     assert np.isclose(range_m, expected_range, atol=1e-6), f"Expected range {expected_range}m, got {range_m}m"

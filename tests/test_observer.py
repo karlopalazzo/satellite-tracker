@@ -26,7 +26,7 @@ def test_observer_invalid_latitude():
 def test_observer_invalid_longitude():
     with pytest.raises(ObserverValidationError):
         Observer(latitude_deg=0.0, longitude_deg=200.0, altitude_m=0.0)
-    
+
     with pytest.raises(ObserverValidationError):
         Observer(latitude_deg=0.0, longitude_deg=-200.0, altitude_m=0.0)
 
@@ -34,6 +34,6 @@ def test_observer_invalid_longitude():
 def test_observer_invalid_altitude():
     with pytest.raises(ObserverValidationError):
         Observer(latitude_deg=0.0, longitude_deg=0.0, altitude_m=-2000.0)
-    
+
     with pytest.raises(ObserverValidationError):
         Observer(latitude_deg=0.0, longitude_deg=0.0, altitude_m=200_000.0)

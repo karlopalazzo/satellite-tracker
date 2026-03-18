@@ -5,11 +5,7 @@ from datetime import datetime, timezone
 from .domain.observer import Observer
 from math import degrees
 
-observer = Observer(
-    latitude_deg=51.62773,
-    longitude_deg=15.88198,
-    altitude_m=126.0
-)
+observer = Observer(latitude_deg=51.62773, longitude_deg=15.88198, altitude_m=126.0)
 
 constellation = ConstellationTracker(observer)
 

@@ -4,17 +4,19 @@ from datetime import datetime, timezone, timedelta
 
 class TLEParseError(Exception):
     """Exception class for TLE parsing errors."""
+
     pass
 
 
 @dataclass(frozen=True)  # frozen==immutable
 class TLE:
     """Two-Line Element set (TLE) for satellite tracking."""
+
     name: str
 
     raw_line1: str
     raw_line2: str
-    
+
     # Line 1 information:
     norad_id: int
     classification: str
@@ -70,8 +72,8 @@ class TLEParser:
 
         return TLE(
             name=name.strip(),
-            raw_line1 = line1,
-            raw_line2 = line2,
+            raw_line1=line1,
+            raw_line2=line2,
             norad_id=norad_id,
             classification=classification,
             international_designator=international_designator,
@@ -90,7 +92,7 @@ class TLEParser:
             rev_num_at_epoch=rev_num_at_epoch,
         )
 
-# Validation methods for TLE lines
+    # Validation methods for TLE lines
 
     @staticmethod
     def _validate_lines(line1: str, line2: str):
@@ -116,8 +118,8 @@ class TLEParser:
 
     @staticmethod
     def _calculate_checksum(line: str) -> int:
-        '''Calculate the checksum to confirm integrity of the TLE line. 
-        Results in a single digit (0-9) using modulo 10 on final sum.'''
+        """Calculate the checksum to confirm integrity of the TLE line.
+        Results in a single digit (0-9) using modulo 10 on final sum."""
         checksum = 0
         for char in line[:-1]:  # Checksum char is excluded
             if char.isdigit():
@@ -126,12 +128,12 @@ class TLEParser:
                 checksum += 1
         return checksum % 10
 
-# Helper method to parse the epoch field from line 1
+    # Helper method to parse the epoch field from line 1
 
     @staticmethod
     def _parse_epoch(line1: str) -> datetime:
-        '''Parse the epoch field from line 1,
-        returning a timezone-aware datetime object in UTC.'''
+        """Parse the epoch field from line 1,
+        returning a timezone-aware datetime object in UTC."""
         year = int(line1[18:20])
         day_of_year = float(line1[20:32].strip())
 
@@ -140,10 +142,10 @@ class TLEParser:
 
     @staticmethod
     def _parse_exponent_field(field: str) -> float:
-        '''Parse fields that use a compact scientific notation,
-        returning the corresponding float value.'''
+        """Parse fields that use a compact scientific notation,
+        returning the corresponding float value."""
         field = field.strip()
-        
+
         if not field:
             return 0.0  # Treat empty fields as zero
 
@@ -151,8 +153,8 @@ class TLEParser:
 
         if field[0] in "-+":
             field = field[1:]
-        
+
         mantissa = float(f"0.{field[0:5]}")
         exponent = int(field[5:])
 
-        return sign * mantissa * (10 ** exponent)
+        return sign * mantissa * (10**exponent)
