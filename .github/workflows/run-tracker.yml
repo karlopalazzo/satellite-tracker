@@ -33,7 +33,7 @@ jobs:
     
     - name: Run Satellite Tracker (__main__.py)
       run: |
-        run: python -u src/satellite_tracker/__main__.py > output/tracker.log 2>&1
+        python -u src/satellite_tracker/__main__.py > output/tracker.log 2>&1
 
     - name: Upload Tracker Log as Artifact
       uses: actions/upload-artifact@v4
