@@ -1,0 +1,40 @@
+name: Run Satellite Tracker
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  run-tracker:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.11]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        pip install .
+        pip install numpy
+
+    - name: Run Satellite Tracker (__main__.py)
+      run: |
+        mkdir -p output
+        python src/satellite_tracker/__main__.py > output/tracker.log 2>&1
+
+    - name: Upload Tracker Log as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: satellite-tracker-log
+        path: output/tracker.log
