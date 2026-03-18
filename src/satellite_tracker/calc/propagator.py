@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 
 import numpy as np
 from sgp4.api import Satrec, jday

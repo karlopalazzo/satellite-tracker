@@ -1,6 +1,6 @@
 import math
 
-from satellite_tracker.calc.frames import WGS84_A, WGS84_E2, WGS84_F, geodetic_to_ecef
+from satellite_tracker.calc.frames import WGS84_A, geodetic_to_ecef
 
 
 def test_equator_zero_altitude():

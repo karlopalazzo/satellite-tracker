@@ -1,4 +1,3 @@
-from .observer import Observer
 
 
 class ConstellationTracker:

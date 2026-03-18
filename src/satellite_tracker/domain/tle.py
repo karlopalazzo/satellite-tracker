@@ -5,7 +5,6 @@ from datetime import datetime, timedelta, timezone
 class TLEParseError(Exception):
     """Exception class for TLE parsing errors."""
 
-    pass
 
 
 @dataclass(frozen=True)  # frozen==immutable

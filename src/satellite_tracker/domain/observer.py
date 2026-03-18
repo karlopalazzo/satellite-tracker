@@ -5,7 +5,6 @@ from dataclasses import dataclass
 class ObserverValidationError(Exception):
     """Raised when observer data is invalid."""
 
-    pass
 
 
 @dataclass(frozen=True)

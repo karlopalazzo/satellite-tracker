@@ -1,4 +1,3 @@
-from datetime import datetime, timezone
 from math import degrees
 
 from .calc.propagator import propagate_satellite
