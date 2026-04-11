@@ -1,4 +1,4 @@
-name: Satellite Tracker CI
+name: Satellite Tracker pytests + clean code check
 
 on:
   push:
