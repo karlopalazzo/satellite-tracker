@@ -12,6 +12,16 @@ class ConstellationTracker:
 
         self.trackers[name] = SatelliteTracker(satrec, self.observer)
 
+    def add_satellite_from_norad(self, name:str, norad_id: int):
+        from .tracker import SatelliteTracker
+        from ..infrastructure.tle_provider import get_satellite_tle
+        from ..calc.propagator import propagate_satellite
+
+        line1, line2 = get_satellite_tle(norad_id)
+        sat = propagate_satellite(line1, line2)
+
+        self.add_satellite(name, sat)
+
     def get_all_positions(self, obs_time=None):
         results = {}
 

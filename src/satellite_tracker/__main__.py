@@ -5,19 +5,18 @@ from .domain.constellation_tracker import ConstellationTracker
 from .domain.observer import Observer
 from .infrastructure.tle_provider import get_satellite_tle
 
-observer = Observer(latitude_deg=51.62773, longitude_deg=15.88198, altitude_m=126.0)
+observer = Observer(
+    latitude_deg=51.62773,
+    longitude_deg=15.88198,
+    altitude_m=126.0
+)
 
 constellation = ConstellationTracker(observer)
 
 # ISS
-line1, line2 = get_satellite_tle(25544)
-iss = propagate_satellite(line1, line2)
-constellation.add_satellite("ISS", iss)
-
+constellation.add_satellite_from_norad("ISS", 25544)
 # Hubble
-line1, line2 = get_satellite_tle(20580)
-hubble = propagate_satellite(line1, line2)
-constellation.add_satellite("Hubble", hubble)
+constellation.add_satellite_from_norad("Hubble", 20580)
 
 positions = constellation.get_all_positions()
 
