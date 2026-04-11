@@ -1,11 +1,11 @@
-import pytest
-import numpy as np
 from datetime import datetime, timezone
 
+import numpy as np
+import pytest
 from sgp4.api import Satrec
 
-from satellite_tracker.domain.tracker import SatelliteTracker
 from satellite_tracker.domain.observer import Observer
+from satellite_tracker.domain.tracker import SatelliteTracker
 
 # example TLE ISS
 line1 = "1 25544U 98067A   26064.12345678  .00001234  00000-0  12345-4 0  9991"
