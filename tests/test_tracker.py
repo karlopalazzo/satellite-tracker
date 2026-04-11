@@ -7,23 +7,20 @@ from sgp4.api import Satrec
 from satellite_tracker.domain.tracker import SatelliteTracker
 from satellite_tracker.domain.observer import Observer
 
-
 # example TLE ISS
 line1 = "1 25544U 98067A   26064.12345678  .00001234  00000-0  12345-4 0  9991"
 line2 = "2 25544  51.6441  21.0021 0004233 123.4567 246.7890 15.4891234567890"
+
 
 @pytest.fixture(scope="module")
 def tracker():
     satellite = Satrec.twoline2rv(line1, line2)
 
     # observer
-    observer = Observer(
-        latitude_deg=51.62773,
-        longitude_deg=15.88198,
-        altitude_m=126.0
-    )
+    observer = Observer(latitude_deg=51.62773, longitude_deg=15.88198, altitude_m=126.0)
 
     return SatelliteTracker(satellite, observer)
+
 
 obs_time = datetime(2026, 3, 5, 18, 30, 0, tzinfo=timezone.utc)
 
